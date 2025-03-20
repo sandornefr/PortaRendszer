@@ -17,9 +17,9 @@ public partial class Felhasznalo
 
     public string Jelszo { get; set; } = null!;
 
-    public virtual ICollection<Belepe> Belepes { get; set; } = new List<Belepe>();
+    public virtual ICollection<Belepes> Belepes { get; set; } = new List<Belepes>();
 
-    public virtual ICollection<Osztaly> Osztalies { get; set; } = new List<Osztaly>();
+    public virtual ICollection<Osztaly> Osztalyok { get; set; } = new List<Osztaly>();
 
     public virtual ICollection<TanteremHasznalat> TanteremHasznalats { get; set; } = new List<TanteremHasznalat>();
 }

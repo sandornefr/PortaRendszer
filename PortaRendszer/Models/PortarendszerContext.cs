@@ -16,27 +16,37 @@ public partial class PortarendszerContext : DbContext
     {
     }
 
-    public virtual DbSet<Belepe> Belepes { get; set; }
+    public virtual DbSet<Belepes> Belepesek { get; set; }
 
-    public virtual DbSet<Felhasznalo> Felhasznalos { get; set; }
+    public virtual DbSet<Felhasznalo> Felhasznalok { get; set; }
 
-    public virtual DbSet<Osztaly> Osztalies { get; set; }
+    public virtual DbSet<Osztaly> Osztalyok { get; set; }
 
-    public virtual DbSet<PortaUzenet> PortaUzenets { get; set; }
+    public virtual DbSet<PortaUzenet> PortaUzenetek { get; set; }
 
-    public virtual DbSet<SpecNap> SpecNaps { get; set; }
+    public virtual DbSet<SpecNap> SpecNapok { get; set; }
 
-    public virtual DbSet<Tanterem> Tanterems { get; set; }
+    public virtual DbSet<Tanterem> Tantermek { get; set; }
 
-    public virtual DbSet<TanteremHasznalat> TanteremHasznalats { get; set; }
+    public virtual DbSet<TanteremHasznalat> TanteremHasznalatok { get; set; }
 
-    public virtual DbSet<Tanulo> Tanulos { get; set; }
+    public virtual DbSet<Tanulo> Tanulok { get; set; }
 
-    public virtual DbSet<TanuloArchiv> TanuloArchivs { get; set; }
+    public virtual DbSet<TanuloArchiv> TanuloArchivum { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;database=portarendszer;user=root;sslmode=none", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.4.32-mariadb"));
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("MySql");
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,7 +54,7 @@ public partial class PortarendszerContext : DbContext
             .UseCollation("utf8mb4_hungarian_ci")
             .HasCharSet("utf8mb4");
 
-        modelBuilder.Entity<Belepe>(entity =>
+        modelBuilder.Entity<Belepes>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
@@ -129,10 +139,11 @@ public partial class PortarendszerContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("osztalyfonok_id");
 
-            entity.HasOne(d => d.Osztalyfonok).WithMany(p => p.Osztalies)
-                .HasForeignKey(d => d.OsztalyfonokId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("osztaly_ibfk_1");
+            entity.HasOne(d => d.Osztalyfonok).WithMany(p => p.Osztalyok)
+            .HasForeignKey(d => d.OsztalyfonokId)
+            .OnDelete(DeleteBehavior.SetNull)
+            .HasConstraintName("osztaly_ibfk_1");
+
         });
 
         modelBuilder.Entity<PortaUzenet>(entity =>
