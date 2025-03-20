@@ -16,4 +16,5 @@ public partial class Belepes
     public DateTime UtolsoAktivitas { get; set; }
 
     public virtual Felhasznalo Felhasznalo { get; set; } = null!;
+    public DateTime BelepesIdo { get; internal set; }
 }

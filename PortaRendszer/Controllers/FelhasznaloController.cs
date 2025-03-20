@@ -9,7 +9,7 @@ using PortaRendszer.Models;
 
 namespace PortaRendszer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/felhasznalo")]
     [ApiController]
     public class FelhasznaloController : ControllerBase
     {
@@ -20,88 +20,90 @@ namespace PortaRendszer.Controllers
             _context = context;
         }
 
-        // GET: api/Felhasznalo
+        // 1️. Összes felhasználó lekérdezése
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Felhasznalo>>> GetFelhasznalok()
         {
             return await _context.Felhasznalok.ToListAsync();
         }
 
-        // GET: api/Felhasznalo/5
+        // 2️. Egy adott felhasználó lekérdezése ID alapján
         [HttpGet("{id}")]
         public async Task<ActionResult<Felhasznalo>> GetFelhasznalo(int id)
         {
             var felhasznalo = await _context.Felhasznalok.FindAsync(id);
-
             if (felhasznalo == null)
             {
                 return NotFound();
             }
-
             return felhasznalo;
         }
 
-        // PUT: api/Felhasznalo/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFelhasznalo(int id, Felhasznalo felhasznalo)
-        {
-            if (id != felhasznalo.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(felhasznalo).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FelhasznaloExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Felhasznalok
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // 3️. Új felhasználó létrehozása
         [HttpPost]
         public async Task<ActionResult<Felhasznalo>> PostFelhasznalo(Felhasznalo felhasznalo)
         {
             _context.Felhasznalok.Add(felhasznalo);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFelhasznalo", new { id = felhasznalo.Id }, felhasznalo);
+            return CreatedAtAction(nameof(GetFelhasznalo), new { id = felhasznalo.Id }, felhasznalo);
         }
 
-        // DELETE: api/Felhasznalok/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFelhasznalo(int id)
+        // 4️. Egy adott felhasználóhoz tartozó belépések lekérdezése
+        [HttpGet("{id}/belepesek")]
+        public async Task<ActionResult<IEnumerable<Belepes>>> GetFelhasznaloBelepesek(int id)
+        {
+            var belepesek = await _context.Belepesek
+                .Where(b => b.FelhasznaloId == id)
+                .ToListAsync();
+
+            if (!belepesek.Any())
+            {
+                return NotFound("Nincs belépési adat ehhez a felhasználóhoz.");
+            }
+            return belepesek;
+        }
+
+        // 5️. Új belépési napló bejegyzés létrehozása
+        [HttpPost("{id}/belepes")]
+        public async Task<ActionResult<Belepes>> PostFelhasznaloBelepes(int id)
         {
             var felhasznalo = await _context.Felhasznalok.FindAsync(id);
             if (felhasznalo == null)
             {
-                return NotFound();
+                return NotFound("A felhasználó nem található.");
             }
 
-            _context.Felhasznalok.Remove(felhasznalo);
+            var belepes = new Belepes
+            {
+                FelhasznaloId = id,
+                BelepesIdo = DateTime.UtcNow,
+                UtolsoAktivitas = DateTime.UtcNow
+            };
+
+            _context.Belepesek.Add(belepes);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return CreatedAtAction(nameof(GetFelhasznaloBelepesek), new { id = belepes.Id }, belepes);
         }
 
-        private bool FelhasznaloExists(int id)
+        // 6️. Kijelentkezés rögzítése (kilepesi_ido beállítása)
+        [HttpPut("{felhasznaloId}/belepes/{belepesId}/kilepes")]
+        public async Task<IActionResult> PutKilepes(int felhasznaloId, int belepesId)
         {
-            return _context.Felhasznalok.Any(e => e.Id == id);
+            var belepes = await _context.Belepesek
+                .FirstOrDefaultAsync(b => b.Id == belepesId && b.FelhasznaloId == felhasznaloId);
+
+            if (belepes == null)
+            {
+                return NotFound("A belépési rekord nem található.");
+            }
+
+            belepes.KilepesiIdo = DateTime.UtcNow;
+            belepes.UtolsoAktivitas = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
+
 }
