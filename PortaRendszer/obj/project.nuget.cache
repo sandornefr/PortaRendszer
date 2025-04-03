@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "drLXGPvI2Ec=",
+  "dgSpecHash": "kG7/Ff9d4pg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\feker\\Desktop\\PortaRendszer\\PortaRendszer\\PortaRendszer.csproj",
+  "projectFilePath": "C:\\Users\\feker\\PortaRendszer\\PortaRendszer\\PortaRendszer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\feker\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
     "C:\\Users\\feker\\.nuget\\packages\\google.protobuf\\3.26.1\\google.protobuf.3.26.1.nupkg.sha512",
