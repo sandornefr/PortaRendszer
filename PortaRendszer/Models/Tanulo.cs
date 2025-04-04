@@ -24,4 +24,5 @@ public partial class Tanulo
     public virtual Osztaly? Osztaly { get; set; }
 
     public virtual ICollection<PortaUzenet> PortaUzenets { get; set; } = new List<PortaUzenet>();
+    public bool AktivEvben { get; internal set; }
 }
