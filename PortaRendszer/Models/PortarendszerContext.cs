@@ -34,7 +34,7 @@ public partial class PortarendszerContext : DbContext
     public virtual DbSet<TanuloArchiv> TanuloArchivs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySQL("server=localhost;database=portarendszer;user=root;password=;sslmode=none;");
+        => optionsBuilder.UseMySQL("server=localhost;database=portarendszer;user=root;password=;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

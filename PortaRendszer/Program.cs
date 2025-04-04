@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using PortaRendszer.Models;
 
 namespace PortaRendszer
 {
@@ -7,16 +9,36 @@ namespace PortaRendszer
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Kapcsolati karakterlánc lekérése
+            var connectionString = builder.Configuration.GetConnectionString("MySql");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("A 'MySql' kapcsolati karakterlánc nem található.");
+            }
 
+            // DbContext regisztrálása
+            builder.Services.AddDbContext<PortarendszerContext>(options =>
+                options.UseMySQL(connectionString));
+
+            // CORS engedélyezése
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
+            // Alap szolgáltatások
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Fejlesztési környezetben Swagger használata
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -25,9 +47,12 @@ namespace PortaRendszer
 
             app.UseHttpsRedirection();
 
+            // CORS használata (engedélyezés a kérésekhez)
+            app.UseCors();
+
             app.UseAuthorization();
 
-
+            // Vezérlõk feltérképezése
             app.MapControllers();
 
             app.Run();
