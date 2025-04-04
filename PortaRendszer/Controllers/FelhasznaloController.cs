@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaRendszer.DTOs;
 using PortaRendszer.Models;
+using PortaRendszer.Services;
 
 namespace PortaRendszer.Controllers
 {
@@ -17,26 +19,23 @@ namespace PortaRendszer.Controllers
             _context = context;
         }
 
-        // GET: api/Felhasznalo
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FelhasznaloDTO>>> GetFelhasznalok()
         {
             var felhasznalok = await _context.Felhasznalos
-                .Include(f => f.Osztalies)
                 .Include(f => f.Belepes)
+                .Include(f => f.Osztalies)
                 .ToListAsync();
 
-            var dtos = felhasznalok.Select(FelhasznaloDTO.FromEntity).ToList();
-            return Ok(dtos);
+            return felhasznalok.Select(FelhasznaloDTO.FromEntity).ToList();
         }
 
-        // GET: api/Felhasznalo/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FelhasznaloDTO>> GetFelhasznalo(int id)
         {
             var f = await _context.Felhasznalos
-                .Include(f => f.Osztalies)
                 .Include(f => f.Belepes)
+                .Include(f => f.Osztalies)
                 .FirstOrDefaultAsync(f => f.Id == id);
 
             if (f == null) return NotFound();
@@ -44,17 +43,19 @@ namespace PortaRendszer.Controllers
             return FelhasznaloDTO.FromEntity(f);
         }
 
-        // POST: api/Felhasznalo
         [HttpPost]
         public async Task<ActionResult<FelhasznaloDTO>> PostFelhasznalo(FelhasznaloDTO dto)
         {
+            PasswordService.CreatePasswordHash("Titkos123", out byte[] hash, out byte[] salt);
+
             var f = new Felhasznalo
             {
                 Nev = dto.Nev,
                 Beosztas = dto.Beosztas,
                 Felhasznalonev = dto.Felhasznalonev,
                 Email = dto.Email,
-                Jelszo = "Titkos123" // ideiglenes jelszó, majd cserélhető
+                JelszoHash = hash,
+                JelszoSalt = salt
             };
 
             _context.Felhasznalos.Add(f);
@@ -63,23 +64,22 @@ namespace PortaRendszer.Controllers
             return CreatedAtAction(nameof(GetFelhasznalo), new { id = f.Id }, FelhasznaloDTO.FromEntity(f));
         }
 
-        // PUT: api/Felhasznalo/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFelhasznalo(int id, FelhasznaloDTO dto)
         {
-            var f = await _context.Felhasznalos.FirstOrDefaultAsync(x => x.Id == id);
+            var f = await _context.Felhasznalos.FindAsync(id);
             if (f == null) return NotFound();
 
             f.Nev = dto.Nev;
             f.Beosztas = dto.Beosztas;
             f.Felhasznalonev = dto.Felhasznalonev;
             f.Email = dto.Email;
+            // jelszó nem frissül itt, csak manuálisan külön
 
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
-        // DELETE: api/Felhasznalo/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFelhasznalo(int id)
         {
@@ -92,9 +92,11 @@ namespace PortaRendszer.Controllers
             return NoContent();
         }
 
-        private bool FelhasznaloExists(int id)
+        [Authorize]
+        [HttpGet("titkos")]
+        public IActionResult GetTitkosAdat()
         {
-            return _context.Felhasznalos.Any(e => e.Id == id);
+            return Ok("Csak bejelentkezve látható!");
         }
     }
 }
