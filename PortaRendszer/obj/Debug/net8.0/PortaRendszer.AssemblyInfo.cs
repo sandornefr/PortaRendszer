@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PortaRendszer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8bf927825bea02f755a7782509d8b624b60dc243")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+975b0c3c357fac9ff3ba2352caf7c3bbceda15a0")]
 [assembly: System.Reflection.AssemblyProductAttribute("PortaRendszer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PortaRendszer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -15,8 +15,6 @@ public partial class Felhasznalo
 
     public string Email { get; set; } = null!;
 
-    public string Jelszo { get; set; } = null!;
-
     public byte[] JelszoHash { get; set; } = null!;
 
     public byte[] JelszoSalt { get; set; } = null!;

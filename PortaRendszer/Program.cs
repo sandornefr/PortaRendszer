@@ -3,6 +3,7 @@ using PortaRendszer.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
 
 namespace PortaRendszer
 {
@@ -23,6 +24,27 @@ namespace PortaRendszer
             builder.Services.AddDbContext<PortarendszerContext>(options =>
                 options.UseMySQL(connectionString));
 
+            // JWT hitelesítés beállítása
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            var keyString = jwtSettings["Key"] ?? throw new InvalidOperationException("JWT kulcs hiányzik a konfigurációból.");
+            var key = Encoding.UTF8.GetBytes(keyString);
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings["Issuer"],
+                        ValidAudience = jwtSettings["Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        RoleClaimType = ClaimTypes.Role
+                    };
+                });
+
             // CORS engedélyezése
             builder.Services.AddCors(options =>
             {
@@ -34,29 +56,6 @@ namespace PortaRendszer
                 });
             });
 
-            // JWT beállítások
-            var jwtSettings = builder.Configuration.GetSection("Jwt");
-            var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
-
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["Issuer"],
-                    ValidAudience = jwtSettings["Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
-                };
-            });
-
             // Alap szolgáltatások
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -64,11 +63,10 @@ namespace PortaRendszer
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "PortaRendszer",
+                    Title = "PortaRendszer2",
                     Version = "v1"
                 });
 
-                // JWT Authentication beállítás Swagger-hez
                 c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
                     In = Microsoft.OpenApi.Models.ParameterLocation.Header,
@@ -79,21 +77,20 @@ namespace PortaRendszer
                 });
 
                 c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
                 {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+                    {
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
-
 
             var app = builder.Build();
 
@@ -105,15 +102,10 @@ namespace PortaRendszer
             }
 
             app.UseHttpsRedirection();
-
-            // CORS használata (engedélyezés a kérésekhez)
             app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
-
-            // Vezérlõk feltérképezése
             app.MapControllers();
-
             app.Run();
         }
     }

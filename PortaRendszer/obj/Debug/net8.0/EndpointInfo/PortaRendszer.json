@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "PortaRendszer",
+    "title": "PortaRendszer2",
     "version": "v1"
   },
   "paths": {
@@ -260,6 +260,78 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Felhasznalo/csak-osztalyfonoknek": {
+      "get": {
+        "tags": [
+          "Felhasznalo"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Felhasznalo/jelszocsere": {
+      "post": {
+        "tags": [
+          "Felhasznalo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JelszoCsereDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JelszoCsereDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/JelszoCsereDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Felhasznalo/aktualis": {
+      "get": {
+        "tags": [
+          "Felhasznalo"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FelhasznaloDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FelhasznaloDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FelhasznaloDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -1442,6 +1514,20 @@
               "type": "string",
               "format": "date-time"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JelszoCsereDTO": {
+        "type": "object",
+        "properties": {
+          "jelenlegiJelszo": {
+            "type": "string",
+            "nullable": true
+          },
+          "ujJelszo": {
+            "type": "string",
             "nullable": true
           }
         },

@@ -105,5 +105,52 @@ namespace PortaRendszer.Controllers
         {
             return Ok("Ezt csak az osztályfőnök láthatja.");
         }
+
+        [Authorize]
+        [HttpPost("jelszocsere")]
+        public async Task<IActionResult> JelszoCsere([FromBody] JelszoCsereDTO dto)
+        {
+            var bejelentkezettFelhasznalo = User.Identity?.Name;
+
+            if (string.IsNullOrEmpty(bejelentkezettFelhasznalo))
+                return Unauthorized("Nincs bejelentkezve felhasználó.");
+
+            var felhasznalo = await _context.Felhasznalos.FirstOrDefaultAsync(f => f.Felhasznalonev == bejelentkezettFelhasznalo);
+
+            if (felhasznalo == null)
+                return NotFound("A felhasználó nem található.");
+
+            if (!PasswordService.VerifyPasswordHash(dto.JelenlegiJelszo, felhasznalo.JelszoHash, felhasznalo.JelszoSalt))
+                return BadRequest("A megadott jelenlegi jelszó hibás.");
+
+            PasswordService.CreatePasswordHash(dto.UjJelszo, out byte[] ujHash, out byte[] ujSalt);
+            felhasznalo.JelszoHash = ujHash;
+            felhasznalo.JelszoSalt = ujSalt;
+
+            await _context.SaveChangesAsync();
+            return Ok("A jelszót sikeresen módosítottuk.");
+        }
+
+        [Authorize]
+        [HttpGet("aktualis")]
+        public async Task<ActionResult<FelhasznaloDTO>> GetAktualisFelhasznalo()
+        {
+            var felhasznalonev = User.Identity?.Name;
+
+            if (string.IsNullOrEmpty(felhasznalonev))
+                return Unauthorized("Nem sikerült azonosítani a bejelentkezett felhasználót.");
+
+            var felhasznalo = await _context.Felhasznalos
+                .Include(f => f.Osztalies)
+                .Include(f => f.Belepes)
+                .FirstOrDefaultAsync(f => f.Felhasznalonev == felhasznalonev);
+
+            if (felhasznalo == null)
+                return NotFound("A felhasználó nem található.");
+
+            return FelhasznaloDTO.FromEntity(felhasznalo);
+        }
+
+
     }
 }

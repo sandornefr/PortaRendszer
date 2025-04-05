@@ -97,9 +97,6 @@ public partial class PortarendszerContext : DbContext
             entity.Property(e => e.Felhasznalonev)
                 .HasMaxLength(20)
                 .HasColumnName("felhasznalonev");
-            entity.Property(e => e.Jelszo)
-                .HasMaxLength(255)
-                .HasColumnName("jelszo");
             entity.Property(e => e.JelszoHash)
                 .HasColumnType("blob")
                 .HasColumnName("jelszo_hash");

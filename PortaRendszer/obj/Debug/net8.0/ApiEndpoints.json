@@ -142,6 +142,52 @@
   },
   {
     "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
+    "Method": "GetAktualisFelhasznalo",
+    "RelativePath": "api/Felhasznalo/aktualis",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "PortaRendszer.DTOs.FelhasznaloDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
+    "Method": "GetAdatOsztalyfonoknek",
+    "RelativePath": "api/Felhasznalo/csak-osztalyfonoknek",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
+    "Method": "JelszoCsere",
+    "RelativePath": "api/Felhasznalo/jelszocsere",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PortaRendszer.DTOs.JelszoCsereDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
     "Method": "GetTitkosAdat",
     "RelativePath": "api/Felhasznalo/titkos",
     "HttpMethod": "GET",

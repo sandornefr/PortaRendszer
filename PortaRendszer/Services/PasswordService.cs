@@ -18,5 +18,10 @@ namespace PortaRendszer.Services
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             return computedHash.SequenceEqual(storedHash);
         }
+
+        internal static bool VerifyPasswordHash(string jelenlegiJelszo, byte[] jelszoHash, byte[] jelszoSalt)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
