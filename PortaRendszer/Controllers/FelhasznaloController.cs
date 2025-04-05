@@ -98,5 +98,12 @@ namespace PortaRendszer.Controllers
         {
             return Ok("Csak bejelentkezve látható!");
         }
+
+        [Authorize(Roles = "osztalyfonok")]
+        [HttpGet("csak-osztalyfonoknek")]
+        public IActionResult GetAdatOsztalyfonoknek()
+        {
+            return Ok("Ezt csak az osztályfőnök láthatja.");
+        }
     }
 }
