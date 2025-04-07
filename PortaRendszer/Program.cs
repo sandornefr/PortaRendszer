@@ -63,7 +63,7 @@ namespace PortaRendszer
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "PortaRendszer2",
+                    Title = "PortaRendszer",
                     Version = "v1"
                 });
 

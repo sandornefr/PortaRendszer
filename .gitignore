@@ -1,6 +1,4 @@
 .vs/
-appsettings.json
-appsettings.*.json
 /obj
 /bin
 /Debug
