@@ -19,13 +19,30 @@ public class TanuloArchivController : ControllerBase
         return await _context.TanuloArchiv.ToListAsync();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> ArchivaltTanuloHozzaadasa([FromBody] TanuloArchiv dto)
+    [HttpPost("{tanuloId}")]
+    public async Task<IActionResult> ArchivbaTesz(int tanuloId)
     {
-        dto.TorlesIdopont = DateTime.Now;
-        _context.TanuloArchiv.Add(dto);
+        var tanulo = await _context.Tanulos
+            .Include(t => t.Osztaly)
+            .FirstOrDefaultAsync(t => t.Id == tanuloId);
+
+        if (tanulo == null)
+            return NotFound("A tanuló nem található.");
+
+        var archiv = new TanuloArchiv
+        {
+            OktAzonosito = tanulo.OktAzonosito,
+            Nev = tanulo.Nev,
+            OsztalyNev = tanulo.Osztaly?.Nev,
+            TorlesIdopont = DateTime.Now
+        };
+
+        _context.TanuloArchiv.Add(archiv);
+        _context.Tanulos.Remove(tanulo);
+
         await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetArchivaltTanulok), new { id = dto.Id }, dto);
+
+        return Ok("Tanuló archiválva és törölve.");
     }
 
     [HttpDelete("{id}")]
