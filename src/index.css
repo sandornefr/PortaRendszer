@@ -1,13 +1,21 @@
+/* index.css – globális stílusok, navbar miatt is hasznos */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #343a40;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1, h2 {
+  font-weight: 600;
+  text-align: center;
+}
+
+.container {
+  padding-top: 100px; /* a fix navbar miatt legyen hely */
 }
