@@ -21,8 +21,9 @@ public partial class Tanulo
 
     public string? GondviseloStatusz { get; set; }
 
+    public bool? AktivEvben { get; set; }
+
     public virtual Osztaly? Osztaly { get; set; }
 
     public virtual ICollection<PortaUzenet> PortaUzenets { get; set; } = new List<PortaUzenet>();
-    public bool AktivEvben { get; internal set; }
 }
