@@ -177,16 +177,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
-    "Method": "GetTitkosAdat",
-    "RelativePath": "api/Felhasznalo/titkos",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "PortaRendszer.Controllers.OsztalyController",
     "Method": "GetOsztalyok",
     "RelativePath": "api/Osztaly",

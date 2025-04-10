@@ -237,18 +237,6 @@
         }
       }
     },
-    "/api/Felhasznalo/titkos": {
-      "get": {
-        "tags": [
-          "Felhasznalo"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Felhasznalo/csak-osztalyfonoknek": {
       "get": {
         "tags": [
