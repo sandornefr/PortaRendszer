@@ -216,21 +216,11 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "PortaRendszer.DTOs.OsztalyDTO",
+        "Type": "OsztalyCreateDTO",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "PortaRendszer.DTOs.OsztalyDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PortaRendszer.Controllers.OsztalyController",
@@ -294,6 +284,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortaRendszer.Controllers.OsztalyController",
+    "Method": "GetEl\u00E9rhet\u0151Osztalyfonokok",
+    "RelativePath": "api/Osztaly/elerheto-osztalyfonokok",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PortaRendszer.DTOs.FelhasznaloDTO, PortaRendszer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "PortaRendszer.Controllers.OsztalyController",
@@ -883,22 +893,6 @@
   },
   {
     "ContainingType": "TanuloArchivController",
-    "Method": "ArchivaltTanuloHozzaadasa",
-    "RelativePath": "api/TanuloArchiv",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "PortaRendszer.Models.TanuloArchiv",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TanuloArchivController",
     "Method": "VeglegesTorles",
     "RelativePath": "api/TanuloArchiv/{id}",
     "HttpMethod": "DELETE",
@@ -907,6 +901,22 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TanuloArchivController",
+    "Method": "ArchivbaTesz",
+    "RelativePath": "api/TanuloArchiv/{tanuloId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tanuloId",
         "Type": "System.Int32",
         "IsRequired": true
       }

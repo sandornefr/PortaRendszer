@@ -366,41 +366,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OsztalyDTO"
+                "$ref": "#/components/schemas/OsztalyCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OsztalyDTO"
+                "$ref": "#/components/schemas/OsztalyCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OsztalyDTO"
+                "$ref": "#/components/schemas/OsztalyCreateDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OsztalyDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OsztalyDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OsztalyDTO"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -502,6 +485,44 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Osztaly/elerheto-osztalyfonokok": {
+      "get": {
+        "tags": [
+          "Osztaly"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FelhasznaloDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FelhasznaloDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FelhasznaloDTO"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1509,30 +1530,24 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/TanuloArchiv/{tanuloId}": {
       "post": {
         "tags": [
           "TanuloArchiv"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TanuloArchiv"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TanuloArchiv"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TanuloArchiv"
-              }
+        "parameters": [
+          {
+            "name": "tanuloId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1661,6 +1676,20 @@
         },
         "additionalProperties": false
       },
+      "OsztalyCreateDTO": {
+        "type": "object",
+        "properties": {
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "osztalyfonokId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "OsztalyDTO": {
         "type": "object",
         "properties": {
@@ -1669,10 +1698,6 @@
             "format": "int32"
           },
           "nev": {
-            "type": "string",
-            "nullable": true
-          },
-          "egyediAzonosito": {
             "type": "string",
             "nullable": true
           },

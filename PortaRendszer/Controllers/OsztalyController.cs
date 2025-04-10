@@ -44,21 +44,37 @@ namespace PortaRendszer.Controllers
             return OsztalyDTO.FromEntity(osztaly);
         }
 
-        // POST: api/Osztaly
         [HttpPost]
-        public async Task<ActionResult<OsztalyDTO>> PostOsztaly(OsztalyDTO dto)
+        [Authorize(Roles = "admin,igazgato,igazgatohelyettes")]
+        public async Task<IActionResult> PostOsztaly(OsztalyCreateDTO dto)
         {
+            // Ellenőrizzük, hogy a választott osztályfőnök létezik-e, és még nincs osztályhoz rendelve
+            var osztalyfonok = await _context.Felhasznalos
+                .FirstOrDefaultAsync(f => f.Id == dto.OsztalyfonokId && f.Beosztas == "tanar" && !_context.Osztalies.Any(o => o.OsztalyfonokId == f.Id));
+
+            if (osztalyfonok == null)
+                return BadRequest("A kiválasztott osztályfőnök nem elérhető vagy már van osztálya.");
+
             var osztaly = new Osztaly
             {
                 Nev = dto.Nev,
-                EgyediAzonosito = dto.EgyediAzonosito,
-                Osztalyfonok = await _context.Felhasznalos.FirstOrDefaultAsync(f => f.Nev == dto.OsztalyfonokNev)
+                OsztalyfonokId = osztalyfonok.Id
             };
 
             _context.Osztalies.Add(osztaly);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetOsztaly), new { id = osztaly.Id }, OsztalyDTO.FromEntity(osztaly));
+        }
+
+        [HttpGet("elerheto-osztalyfonokok")]
+        public async Task<ActionResult<IEnumerable<FelhasznaloDTO>>> GetElérhetőOsztalyfonokok()
+        {
+            var tanarok = await _context.Felhasznalos
+                .Where(f => f.Beosztas == "tanar" && !_context.Osztalies.Any(o => o.OsztalyfonokId == f.Id))
+                .ToListAsync();
+
+            return tanarok.Select(FelhasznaloDTO.FromEntity).ToList();
         }
 
         [HttpPost("leptetes")]
@@ -132,7 +148,6 @@ namespace PortaRendszer.Controllers
             if (osztaly == null) return NotFound();
 
             osztaly.Nev = dto.Nev;
-            osztaly.EgyediAzonosito = dto.EgyediAzonosito;
             osztaly.Osztalyfonok = await _context.Felhasznalos.FirstOrDefaultAsync(f => f.Nev == dto.OsztalyfonokNev);
 
             await _context.SaveChangesAsync();
