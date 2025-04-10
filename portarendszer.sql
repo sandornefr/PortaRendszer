@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 10. 16:22
+-- Létrehozás ideje: 2025. Ápr 10. 17:28
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -136,20 +136,20 @@ CREATE TABLE `osztaly` (
 --
 
 INSERT INTO `osztaly` (`id`, `nev`, `egyedi_azonosito`, `osztalyfonok_id`) VALUES
-(1, '1.a', NULL, NULL),
-(2, '1.b', NULL, NULL),
-(3, '1.c', NULL, NULL),
-(4, '2.a', NULL, NULL),
-(5, '2.b', NULL, NULL),
-(6, '3.a', NULL, NULL),
-(7, '3.b', NULL, NULL),
-(8, '4.a', NULL, NULL),
-(9, '4.b', NULL, NULL),
-(10, '5.a', NULL, NULL),
-(11, '5.b', NULL, NULL),
-(12, '5.c', NULL, NULL),
-(13, '6.a', NULL, NULL),
-(14, '6.b', NULL, NULL);
+(1, '1.a', NULL, 25),
+(2, '1.b', NULL, 27),
+(3, '1.c', NULL, 29),
+(4, '2.a', NULL, 31),
+(5, '2.b', NULL, 33),
+(6, '3.a', NULL, 35),
+(7, '3.b', NULL, 37),
+(8, '4.a', NULL, 39),
+(9, '4.b', NULL, 41),
+(10, '5.a', NULL, 43),
+(11, '5.b', NULL, 45),
+(12, '5.c', NULL, 47),
+(13, '6.a', NULL, 49),
+(14, '6.b', NULL, 51);
 
 -- --------------------------------------------------------
 
@@ -653,7 +653,7 @@ ALTER TABLE `felhasznalo`
 -- AUTO_INCREMENT a táblához `osztaly`
 --
 ALTER TABLE `osztaly`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT a táblához `porta_uzenet`
