@@ -93,13 +93,6 @@ namespace PortaRendszer.Controllers
             return NoContent();
         }
 
-        [Authorize]
-        [HttpGet("titkos")]
-        public IActionResult GetTitkosAdat()
-        {
-            return Ok("Csak bejelentkezve látható!");
-        }
-
         [Authorize(Roles = "osztalyfonok,admin")]
         [HttpGet("csak-osztalyfonoknek")]
         public IActionResult GetAdatOsztalyfonoknek()
