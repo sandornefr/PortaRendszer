@@ -103,52 +103,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "Felhasznalo"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FelhasznaloDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FelhasznaloDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/FelhasznaloDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/FelhasznaloDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FelhasznaloDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FelhasznaloDTO"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/api/Felhasznalo/{id}": {
@@ -245,6 +199,37 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Felhasznalo/regisztral": {
+      "post": {
+        "tags": [
+          "Felhasznalo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FelhasznaloCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FelhasznaloCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FelhasznaloCreateDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -521,6 +506,18 @@
         }
       }
     },
+    "/api/Osztaly/leptetes": {
+      "post": {
+        "tags": [
+          "Osztaly"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/OsztalyFelhasznalo": {
       "get": {
         "tags": [
@@ -756,41 +753,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PortaUzenetDTO"
+                "$ref": "#/components/schemas/PortaUzenetCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PortaUzenetDTO"
+                "$ref": "#/components/schemas/PortaUzenetCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PortaUzenetDTO"
+                "$ref": "#/components/schemas/PortaUzenetCreateDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PortaUzenetDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PortaUzenetDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PortaUzenetDTO"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -1460,6 +1440,128 @@
           }
         }
       }
+    },
+    "/api/Tanulo/import": {
+      "post": {
+        "tags": [
+          "Tanulo"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "File": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TanuloArchiv": {
+      "get": {
+        "tags": [
+          "TanuloArchiv"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TanuloArchiv"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TanuloArchiv"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TanuloArchiv"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TanuloArchiv"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TanuloArchiv"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TanuloArchiv"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TanuloArchiv"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TanuloArchiv/{id}": {
+      "delete": {
+        "tags": [
+          "TanuloArchiv"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1468,6 +1570,32 @@
         "type": "object",
         "properties": {
           "felhasznalonev": {
+            "type": "string",
+            "nullable": true
+          },
+          "jelszo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FelhasznaloCreateDto": {
+        "type": "object",
+        "properties": {
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "felhasznalonev": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "beosztas": {
             "type": "string",
             "nullable": true
           },
@@ -1573,6 +1701,23 @@
         },
         "additionalProperties": false
       },
+      "PortaUzenetCreateDto": {
+        "type": "object",
+        "properties": {
+          "tanuloId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "uzenet": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusz": {
+            "$ref": "#/components/schemas/StatuszTipus"
+          }
+        },
+        "additionalProperties": false
+      },
       "PortaUzenetDTO": {
         "type": "object",
         "properties": {
@@ -1606,6 +1751,15 @@
           }
         },
         "additionalProperties": false
+      },
+      "StatuszTipus": {
+        "enum": [
+          "Jelen_van",
+          "Hianyzik",
+          "Kulon_foglalkozas",
+          "Hazament"
+        ],
+        "type": "string"
       },
       "TanteremDTO": {
         "type": "object",
@@ -1645,6 +1799,32 @@
             "nullable": true
           },
           "idopont": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TanuloArchiv": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "oktAzonosito": {
+            "type": "string",
+            "nullable": true
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "osztalyNev": {
+            "type": "string",
+            "nullable": true
+          },
+          "torlesIdopont": {
             "type": "string",
             "format": "date-time"
           }

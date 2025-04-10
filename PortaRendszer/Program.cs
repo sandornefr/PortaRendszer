@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace PortaRendszer
 {
@@ -57,7 +58,10 @@ namespace PortaRendszer
             });
 
             // Alap szolgáltatások
-            builder.Services.AddControllers();
+            builder.Services
+     .AddControllers()
+     .AddJsonOptions(x =>
+         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {

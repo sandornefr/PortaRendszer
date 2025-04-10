@@ -23,7 +23,7 @@ public partial class PortarendszerContext : DbContext
 
     public virtual DbSet<OsztalyFelhasznalo> OsztalyFelhasznalos { get; set; }
 
-    public virtual DbSet<PortaUzenet> PortaUzenets { get; set; }
+    public DbSet<PortaUzenet> Porta_Uzenet { get; set; }
 
     public virtual DbSet<Tanterem> Tanterems { get; set; }
 
@@ -31,10 +31,9 @@ public partial class PortarendszerContext : DbContext
 
     public virtual DbSet<Tanulo> Tanulos { get; set; }
 
-    public virtual DbSet<TanuloArchiv> TanuloArchivs { get; set; }
+    public virtual DbSet<TanuloArchiv> TanuloArchiv { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySQL("server=localhost;database=portarendszer;user=root;password=;sslmode=none;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

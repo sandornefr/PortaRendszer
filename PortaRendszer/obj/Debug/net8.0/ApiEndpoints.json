@@ -53,32 +53,6 @@
   },
   {
     "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
-    "Method": "PostFelhasznalo",
-    "RelativePath": "api/Felhasznalo",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "PortaRendszer.DTOs.FelhasznaloDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PortaRendszer.DTOs.FelhasznaloDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
     "Method": "GetFelhasznalo",
     "RelativePath": "api/Felhasznalo/{id}",
     "HttpMethod": "GET",
@@ -181,6 +155,22 @@
       {
         "Name": "dto",
         "Type": "PortaRendszer.DTOs.JelszoCsereDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortaRendszer.Controllers.FelhasznaloController",
+    "Method": "Regisztral",
+    "RelativePath": "api/Felhasznalo/regisztral",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "FelhasznaloCreateDto",
         "IsRequired": true
       }
     ],
@@ -303,6 +293,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortaRendszer.Controllers.OsztalyController",
+    "Method": "Leptetes",
+    "RelativePath": "api/Osztaly/leptetes",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -449,21 +449,11 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "PortaRendszer.DTOs.PortaUzenetDTO",
+        "Type": "PortaRendszer.DTOs.PortaUzenetCreateDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "PortaRendszer.DTOs.PortaUzenetDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PortaRendszer.Controllers.PortaUzenetController",
@@ -843,6 +833,74 @@
     "ContainingType": "PortaRendszer.Controllers.TanuloController",
     "Method": "DeleteTanulo",
     "RelativePath": "api/Tanulo/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortaRendszer.Controllers.TanuloController",
+    "Method": "ImportTanulok",
+    "RelativePath": "api/Tanulo/import",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "File",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TanuloArchivController",
+    "Method": "GetArchivaltTanulok",
+    "RelativePath": "api/TanuloArchiv",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PortaRendszer.Models.TanuloArchiv, PortaRendszer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TanuloArchivController",
+    "Method": "ArchivaltTanuloHozzaadasa",
+    "RelativePath": "api/TanuloArchiv",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PortaRendszer.Models.TanuloArchiv",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TanuloArchivController",
+    "Method": "VeglegesTorles",
+    "RelativePath": "api/TanuloArchiv/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

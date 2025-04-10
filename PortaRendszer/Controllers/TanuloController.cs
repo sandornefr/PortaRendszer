@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaRendszer.DTOs;
 using PortaRendszer.Models;
@@ -51,6 +52,39 @@ namespace PortaRendszer.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTanulo), new { id = tanulo.Id }, TanuloDTO.FromEntity(tanulo));
+        }
+        // POST: api/Tanulo/import
+        [HttpPost("import")]
+        [Authorize(Roles = "igazgato,igazgatohelyettes,osztalyfonok,admin")]
+        public async Task<IActionResult> ImportTanulok([FromForm] TanuloImportDto dto)
+        {
+            if (dto.File == null || dto.File.Length == 0)
+                return BadRequest("Nincs feltöltött fájl.");
+
+            using var reader = new StreamReader(dto.File.OpenReadStream());
+            var tanulok = new List<Tanulo>();
+
+            while (!reader.EndOfStream)
+            {
+                var sor = await reader.ReadLineAsync();
+                var mezok = sor.Split(';');
+
+                if (mezok.Length >= 3)
+                {
+                    tanulok.Add(new Tanulo
+                    {
+                        OktAzonosito = mezok[0],
+                        Nev = mezok[1],
+                        OsztalyId = int.Parse(mezok[2]),
+                        AktivEvben = true
+                    });
+                }
+            }
+
+            _context.Tanulos.AddRange(tanulok);
+            await _context.SaveChangesAsync();
+
+            return Ok($"{tanulok.Count} tanuló importálva.");
         }
 
         // PUT: api/Tanulo/5

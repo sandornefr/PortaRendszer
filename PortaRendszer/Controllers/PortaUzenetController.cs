@@ -1,4 +1,4 @@
-﻿// PortaUzenetController - Üzenetek kezelése tanulókhoz kapcsolva
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaRendszer.DTOs;
@@ -12,6 +12,8 @@ namespace PortaRendszer.Controllers
     {
         private readonly PortarendszerContext _context;
 
+        public StatuszTipus Statusz { get; private set; }
+
         public PortaUzenetController(PortarendszerContext context)
         {
             _context = context;
@@ -21,7 +23,7 @@ namespace PortaRendszer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PortaUzenetDTO>>> GetUzenetek()
         {
-            var uzenetek = await _context.PortaUzenets
+            var uzenetek = await _context.Porta_Uzenet
                 .Include(u => u.Tanulo)
                 .ThenInclude(t => t.Osztaly)
                 .ToListAsync();
@@ -33,10 +35,14 @@ namespace PortaRendszer.Controllers
         [HttpGet("statusz/{statusz}")]
         public async Task<ActionResult<IEnumerable<PortaUzenetDTO>>> GetUzenetekByStatusz(string statusz)
         {
-            var uzenetek = await _context.PortaUzenets
+            // Enum parsolás stringből → StatuszTipus
+            if (!Enum.TryParse<StatuszTipus>(statusz, true, out var statuszEnum))
+                return BadRequest($"Ismeretlen státusz: {statusz}");
+
+            var uzenetek = await _context.Porta_Uzenet
                 .Include(u => u.Tanulo)
                 .ThenInclude(t => t.Osztaly)
-                .Where(u => u.Statusz == statusz)
+                .Where(u => u.Statusz == statuszEnum)
                 .ToListAsync();
 
             return uzenetek.Select(PortaUzenetDTO.FromEntity).ToList();
@@ -44,30 +50,31 @@ namespace PortaRendszer.Controllers
 
         // POST: api/PortaUzenet
         [HttpPost]
-        public async Task<ActionResult<PortaUzenetDTO>> PostUzenet(PortaUzenetDTO dto)
+        [Authorize(Roles = "portas,tanar,napkozis,admin")]
+        public async Task<IActionResult> PostUzenet([FromBody] PortaUzenetCreateDto dto)
         {
             var uzenet = new PortaUzenet
             {
-                Idopont = dto.Idopont,
-                Statusz = dto.Statusz,
+                TanuloId = dto.TanuloId,
                 Uzenet = dto.Uzenet,
-                TanuloId = dto.TanuloId
+                Statusz = dto.Statusz,
+                Idopont = DateTime.Now
             };
 
-            _context.PortaUzenets.Add(uzenet);
+            _context.Porta_Uzenet.Add(uzenet);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUzenetek), new { id = uzenet.Id }, PortaUzenetDTO.FromEntity(uzenet));
+            return Ok(PortaUzenetDTO.FromEntity(uzenet));
         }
 
         // PUT: api/PortaUzenet/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUzenet(int id, PortaUzenetDTO dto)
         {
-            var uzenet = await _context.PortaUzenets.FindAsync(id);
+            var uzenet = await _context.Porta_Uzenet.FindAsync(id);
             if (uzenet == null) return NotFound();
 
-            uzenet.Statusz = dto.Statusz;
+            Statusz = Enum.Parse<StatuszTipus>(dto.Statusz, true);
             uzenet.Uzenet = dto.Uzenet;
             uzenet.TanuloId = dto.TanuloId;
             uzenet.Idopont = dto.Idopont;
@@ -80,10 +87,10 @@ namespace PortaRendszer.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUzenet(int id)
         {
-            var uzenet = await _context.PortaUzenets.FindAsync(id);
+            var uzenet = await _context.Porta_Uzenet.FindAsync(id);
             if (uzenet == null) return NotFound();
 
-            _context.PortaUzenets.Remove(uzenet);
+            _context.Porta_Uzenet.Remove(uzenet);
             await _context.SaveChangesAsync();
 
             return NoContent();

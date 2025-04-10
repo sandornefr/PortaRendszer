@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaRendszer.DTOs;
 using PortaRendszer.Models;
@@ -59,6 +60,69 @@ namespace PortaRendszer.Controllers
 
             return CreatedAtAction(nameof(GetOsztaly), new { id = osztaly.Id }, OsztalyDTO.FromEntity(osztaly));
         }
+
+        [HttpPost("leptetes")]
+        //[Authorize(Roles = "igazgato,igazgatohelyettes,admin")]
+        public async Task<IActionResult> Leptetes()
+        {
+            var tanulok = await _context.Tanulos
+                .Include(t => t.Osztaly)
+                .Where(t => t.AktivEvben == true)
+                .ToListAsync();
+
+            var archivLista = new List<TanuloArchiv>();
+            int sikeresenLepettek = 0;
+
+            foreach (var tanulo in tanulok)
+            {
+                var regiNev = tanulo.Osztaly.Nev;
+
+                if (regiNev.StartsWith("8")) // például 8.a végzős
+                {
+                    archivLista.Add(new TanuloArchiv
+                    {
+                        OktAzonosito = tanulo.OktAzonosito,
+                        Nev = tanulo.Nev,
+                        OsztalyNev = tanulo.Osztaly.Nev,
+                        TorlesIdopont = DateTime.Now
+                    });
+
+                    _context.Tanulos.Remove(tanulo);
+                    continue;
+                }
+
+                var ujEvfolyam = (int)char.GetNumericValue(regiNev[0]) + 1;
+                var betu = regiNev[1..];
+                var ujOsztalyNev = $"{ujEvfolyam}{betu}";
+
+                var celOsztaly = await _context.Osztalies
+                    .FirstOrDefaultAsync(o => o.Nev == ujOsztalyNev);
+
+                if (celOsztaly != null)
+                {
+                    tanulo.OsztalyId = celOsztaly.Id;
+                    sikeresenLepettek++;
+                }
+                else
+                {
+                    // nincs ilyen osztály, maradjon a helyén vagy logolj
+                }
+            }
+
+            if (archivLista.Any())
+            {
+                _context.TanuloArchiv.AddRange(archivLista);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                LeptetettTanulok = sikeresenLepettek,
+                ArchivaltTanulok = archivLista.Count
+            });
+        }
+
 
         // PUT: api/Osztaly/5
         [HttpPut("{id}")]

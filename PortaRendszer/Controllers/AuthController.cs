@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PortaRendszer.DTOs;
 using PortaRendszer.Models;
-using PortaRendszer.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -35,7 +34,7 @@ namespace PortaRendszer.Controllers
 
             var user = new Felhasznalo
             {
-                Nev = dto.Felhasznalonev, // Ezt átírhatod ha másik mezőt használsz névként
+                Nev = dto.Felhasznalonev,
                 Felhasznalonev = dto.Felhasznalonev,
                 Email = dto.Felhasznalonev + "@szidi.hu",
                 Beosztas = "tanar",
@@ -62,7 +61,6 @@ namespace PortaRendszer.Controllers
             return Ok(new { token });
         }
 
-        // Jelszóhash generálás
         private void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
         {
             using var hmac = new HMACSHA512();
@@ -70,15 +68,13 @@ namespace PortaRendszer.Controllers
             hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         }
 
-        // Jelszó ellenőrzés
-        private bool VerifyPasswordHash(string password, byte[] hash, byte[] salt)
+        private bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
-            using var hmac = new HMACSHA512(salt);
+            using var hmac = new HMACSHA512(storedSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return computedHash.SequenceEqual(hash);
+            return computedHash.SequenceEqual(storedHash);
         }
 
-        // JWT Token generálás
         private string CreateToken(Felhasznalo user)
         {
             var claims = new[]

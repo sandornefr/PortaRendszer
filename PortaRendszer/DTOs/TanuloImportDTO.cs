@@ -1,6 +1,4 @@
-﻿namespace PortaRendszer.DTOs
+﻿public class TanuloImportDto
 {
-    public class TanuloImportDTO
-    {
-    }
+    public IFormFile File { get; set; }
 }

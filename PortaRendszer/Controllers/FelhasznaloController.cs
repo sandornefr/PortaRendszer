@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using PortaRendszer.DTOs;
 using PortaRendszer.Models;
 using PortaRendszer.Services;
+using System.Security.Cryptography;
 
 namespace PortaRendszer.Controllers
 {
@@ -43,25 +44,26 @@ namespace PortaRendszer.Controllers
             return FelhasznaloDTO.FromEntity(f);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<FelhasznaloDTO>> PostFelhasznalo(FelhasznaloDTO dto)
+        [HttpPost("regisztral")]
+        public async Task<IActionResult> Regisztral(FelhasznaloCreateDto dto)
         {
-            PasswordService.CreatePasswordHash("Titkos123", out byte[] hash, out byte[] salt);
+            byte[] hash, salt;
+            PasswordService.CreatePasswordHash(dto.Jelszo, out hash, out salt);
 
-            var f = new Felhasznalo
+            var felhasznalo = new Felhasznalo
             {
                 Nev = dto.Nev,
-                Beosztas = dto.Beosztas,
                 Felhasznalonev = dto.Felhasznalonev,
                 Email = dto.Email,
+                Beosztas = dto.Beosztas,
                 JelszoHash = hash,
                 JelszoSalt = salt
             };
 
-            _context.Felhasznalos.Add(f);
+            _context.Felhasznalos.Add(felhasznalo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetFelhasznalo), new { id = f.Id }, FelhasznaloDTO.FromEntity(f));
+            return Ok("Felhasználó létrehozva.");
         }
 
         [HttpPut("{id}")]
@@ -74,7 +76,6 @@ namespace PortaRendszer.Controllers
             f.Beosztas = dto.Beosztas;
             f.Felhasznalonev = dto.Felhasznalonev;
             f.Email = dto.Email;
-            // jelszó nem frissül itt, csak manuálisan külön
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -99,7 +100,7 @@ namespace PortaRendszer.Controllers
             return Ok("Csak bejelentkezve látható!");
         }
 
-        [Authorize(Roles = "osztalyfonok")]
+        [Authorize(Roles = "osztalyfonok,admin")]
         [HttpGet("csak-osztalyfonoknek")]
         public IActionResult GetAdatOsztalyfonoknek()
         {
@@ -123,7 +124,8 @@ namespace PortaRendszer.Controllers
             if (!PasswordService.VerifyPasswordHash(dto.JelenlegiJelszo, felhasznalo.JelszoHash, felhasznalo.JelszoSalt))
                 return BadRequest("A megadott jelenlegi jelszó hibás.");
 
-            PasswordService.CreatePasswordHash(dto.UjJelszo, out byte[] ujHash, out byte[] ujSalt);
+            byte[] ujHash, ujSalt;
+            PasswordService.CreatePasswordHash(dto.UjJelszo, out ujHash, out ujSalt);
             felhasznalo.JelszoHash = ujHash;
             felhasznalo.JelszoSalt = ujSalt;
 
@@ -151,6 +153,13 @@ namespace PortaRendszer.Controllers
             return FelhasznaloDTO.FromEntity(felhasznalo);
         }
 
-
+        public static (string hash, string salt) GeneratePasswordHash(string password)
+        {
+            var saltBytes = RandomNumberGenerator.GetBytes(16);
+            var salt = Convert.ToBase64String(saltBytes);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, 100000, HashAlgorithmName.SHA256);
+            var hash = Convert.ToBase64String(pbkdf2.GetBytes(32));
+            return (hash, salt);
+        }
     }
 }

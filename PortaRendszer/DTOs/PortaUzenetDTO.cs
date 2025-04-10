@@ -16,7 +16,7 @@
             {
                 Id = u.Id,
                 Idopont = u.Idopont,
-                Statusz = u.Statusz,
+                Statusz = u.Statusz.ToString(),
                 Uzenet = u.Uzenet,
                 TanuloId = u.TanuloId,
                 TanuloNev = u.Tanulo?.Nev ?? string.Empty,
