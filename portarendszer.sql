@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 05. 03:46
+-- Létrehozás ideje: 2025. Ápr 10. 16:22
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -46,7 +46,7 @@ CREATE TABLE `belepes` (
 CREATE TABLE `felhasznalo` (
   `id` int(11) NOT NULL,
   `nev` varchar(100) NOT NULL,
-  `beosztas` enum('igazgato','igazgatohelyettes','osztalyfonok','tanar','napkozis','pedasszisztens','portas') NOT NULL,
+  `beosztas` enum('igazgato','igazgatohelyettes','osztalyfonok','tanar','napkozis','pedasszisztens','portas','admin') NOT NULL,
   `felhasznalonev` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `jelszo_hash` blob NOT NULL,
@@ -111,7 +111,12 @@ INSERT INTO `felhasznalo` (`id`, `nev`, `beosztas`, `felhasznalonev`, `email`, `
 (51, 'Bognár Ádám', 'osztalyfonok', 'bognaradam', 'bognaradam@szidi.hu', '', ''),
 (52, 'Tóth Noémi', 'napkozis', 'tothnoemi', 'tothnoemi@szidi.hu', '', ''),
 (53, 'Teszt Felhasználó', 'portas', 'tesztuser', 'teszt@example.com', 0xa0fe2ad5fd6890e58f085c07b78a275d15c0f5e4962db950b4cbe3e4dbaeaebf0fce99d70ea50837c0b887aabeee63c9a6f924222cfbaa17534acc3f847bdeaa, 0x148b41258d8f7100f51d8fffb82f8e2592a18f2a97637cd3b7d27c32a1dd19618b1f4a78c9f85fcaf36eb5f0164a9860c468fcaebbcbbbdd126c69ebe12257d0df197ca92ee2513a8e07ebf560c8e8126234c370b10b720cc08390aafeed03ad9c8f209557c93fc5cce02c7908098382b75a4d509fca3ca1d0cddd39d0df1c66),
-(54, 'Teszt Osztályfőnök', 'osztalyfonok', 'tesztosztalyfonok', 'teszt@iskola.hu', 0xe15b0872c5c2a4213c5409fa54a6a2f500514f7255e88cadc3bd18b4adb6f0ff5b26959c9050dbff4e708419cffec07332322502394c40d5be55a6f49d0e8d41, 0x1dbb354e2dcc68b985022a237bb265ebba3b21d4fceb988e8bb514889191eacad5264a9e2b634c7151047cdbcab0a72984d93caf97bc30ab8be5fcc8be7a63d20126e3c747063eda92d82d6b93becfec3739dcd7cc1e7f0b73a30e04a8e1f7867c6334f63234a584db06a42bb26bf9215b282ac0490db96d3a6d392c06b99422);
+(54, 'Teszt Osztályfőnök', 'osztalyfonok', 'tesztosztalyfonok', 'teszt@iskola.hu', 0xe15b0872c5c2a4213c5409fa54a6a2f500514f7255e88cadc3bd18b4adb6f0ff5b26959c9050dbff4e708419cffec07332322502394c40d5be55a6f49d0e8d41, 0x1dbb354e2dcc68b985022a237bb265ebba3b21d4fceb988e8bb514889191eacad5264a9e2b634c7151047cdbcab0a72984d93caf97bc30ab8be5fcc8be7a63d20126e3c747063eda92d82d6b93becfec3739dcd7cc1e7f0b73a30e04a8e1f7867c6334f63234a584db06a42bb26bf9215b282ac0490db96d3a6d392c06b99422),
+(57, 'admin', 'igazgato', 'admin', 'admin@szidi.hu', 0xea01c3a2ef9bc84a3a7da1c08056dfcf2b3e1145bd9bff2a82c723c05d7b3ace100e340fe0e2c8729df719ced44a0cc7ae7f0487186195db03f277eece2fc3a5, 0xe8f8354c5ec46e9d8ef33d2be119ca7bd991ee244de28181ba4ecd417aa9a6df17377aa82eaab5b27d603c8515859712cd9dfcba1cf8c834157ae81e5a1c665b7feae3c0943d0bc9e765815f59eb977dcae2ace0662061eb546dd0227f35f478b6b6e01c184ac80d2e101e21e96c958407eb24f2594d3e18d7798c99e30eb49f),
+(58, 'tesztelek', 'tanar', 'tesztelek', 'tesztelek@szidi.hu', 0x444801a2da28d1fc341fda88bbfc17415cb1b08c225ed68133a3a2026d970692588ccf7f04bc7609aa128ec354942433bb84adf9bc9650de68d9819c4429defb, 0x921dd712ba2bad07ece8d46a0f3f1b24e54956449098f8bc854abc865696422537c252d16d959fe9d26de183400c9a963357ab4a00b08ddcda2b1bb96628adc2d03f298cbaba4ec8b92a4f38b696e6ef79e0f776cd325d99c485ef4940986a799437eb119b62a98dd0e69bdb21f50760d4d723750f832ce4ba7807dd1e2a35f6),
+(59, 'fekereka', 'osztalyfonok', 'fekereka', 'fekereka@szidi.hu', 0xb8462733f8f1070a3bbb2c4ba5f34086392b6398dafa0b0ec9d62650cf29cdf6e9c580a421870cef29e176752868187abd18dcd935b8da037aa9cc9562fa38e5, 0xb1b44b96f1118a030556de52a67182306d7d32664b5930715d54772d3986b9cd77d6f9d9e921111e87953a5a9654363c47b393a104dd8b41598ee434a969a0f28769bd29bf50f952f9f29e111bb3eb127390e3640fc5abd13549818c0e3a09feb0a2e5c657f4b172ef5faa414ee176590b55c15b65fd6653057e759e7d78fabb),
+(60, 'teszttanar', 'tanar', 'teszttanar', 'teszttanar@szidi.hu', 0xdad68eb85a856bf4b2db73553699197b5507c1e7e5cd22982070e81ab39d5e93653299398f2f999139d78e3d636c641dd9a8d7653c6c29aff514de3dad7bd17a, 0x71c05fcca694b784a084bf6bc059c5a11742e632d932471b5072e6600ff77f5e32ecefe5761f2f2046c6ea88e863b6920bd8dae1e8cc25804a7cb4498e812c13f8f80efcebe8c19af8cebe5c54d824eca8726a175248c188e68180f96dea4334329f05a3c13e8ec07aafd6e7ee6ede5354ebc556b27d04760634a4e736d55c90),
+(62, 'Sándorné Feke Réka', 'admin', 'adminreka', 'sandornef@kkszki.hu', 0xef70b24c4312bdad8cde6f9f3bc9efbfd1e98dba1f285c3a5743513c0a36093892807c0ee5638e8120c78ef2e99f19dd0aac0bf044880a424959eedc4c4042dd, 0xee3e5ef4cfe39ac7a9b210cf9d5f44c0f6fb37352255159352a53ebcad644116649eb8a68fef2ba13ee5f9a1888cc7c407d2a5f2bf81d23ef46ce2419e48c17a1a2f633b8f7ec408bc7175b30df05f3f71f5675825a37a130e201e138546b6c903ed7c7d94ee457a6c5ab55e1489a03519c742a7e08306540870e329e2d1e934);
 
 -- --------------------------------------------------------
 
@@ -144,21 +149,7 @@ INSERT INTO `osztaly` (`id`, `nev`, `egyedi_azonosito`, `osztalyfonok_id`) VALUE
 (11, '5.b', NULL, NULL),
 (12, '5.c', NULL, NULL),
 (13, '6.a', NULL, NULL),
-(14, '6.b', NULL, NULL),
-(15, '1.a', NULL, NULL),
-(16, '1.b', NULL, NULL),
-(17, '1.c', NULL, NULL),
-(18, '2.a', NULL, NULL),
-(19, '2.b', NULL, NULL),
-(20, '3.a', NULL, NULL),
-(21, '3.b', NULL, NULL),
-(22, '4.a', NULL, NULL),
-(23, '4.b', NULL, NULL),
-(24, '5.a', NULL, NULL),
-(25, '5.b', NULL, NULL),
-(26, '5.c', NULL, NULL),
-(27, '6.a', NULL, NULL),
-(28, '6.b', NULL, NULL);
+(14, '6.b', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -292,6 +283,13 @@ CREATE TABLE `tanterem_hasznalat` (
   `idopont` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `tanterem_hasznalat`
+--
+
+INSERT INTO `tanterem_hasznalat` (`id`, `felhasznalo_id`, `tanterem_id`, `osztaly_id`, `idopont`) VALUES
+(1, 1, 1, 1, '2025-04-10 11:39:01');
+
 -- --------------------------------------------------------
 
 --
@@ -315,36 +313,33 @@ CREATE TABLE `tanulo` (
 --
 
 INSERT INTO `tanulo` (`id`, `okt_azonosito`, `nev`, `osztaly_id`, `tanszobas`, `spec_hazavitel`, `gondviselo_nev`, `gondviselo_statusz`, `aktiv_evben`) VALUES
-(841, '76187282598', 'Lakatos Levente', 1, 1, 0, NULL, NULL, 1),
-(842, '76103180598', 'Varga Bence', 1, 1, 0, NULL, NULL, 1),
-(843, '76409040459', 'Takács Nóra', 1, 1, 0, NULL, NULL, 1),
-(844, '75940867758', 'Szabó Zoltán', 1, 1, 0, NULL, NULL, 1),
-(845, '77261009013', 'Farkas Noémi', 1, 1, 0, NULL, NULL, 1),
-(846, '74181990999', 'Farkas Patrik', 1, 1, 0, NULL, NULL, 1),
-(847, '74707485969', 'Kovács Lili', 1, 1, 0, NULL, NULL, 1),
-(848, '74326723248', 'Kovács Gergő', 1, 1, 0, NULL, NULL, 1),
-(849, '74391886174', 'Kiss Zoltán', 1, 1, 0, NULL, NULL, 1),
-(850, '73447617299', 'Lakatos Dániel', 1, 1, 0, NULL, NULL, 1),
-(851, '73335590099', 'Farkas Anna', 1, 1, 0, NULL, NULL, 1),
-(852, '76066911349', 'Szabó Noémi', 1, 1, 0, NULL, NULL, 1),
-(853, '79748673172', 'Molnár Nóra', 1, 1, 0, NULL, NULL, 1),
-(854, '79403751157', 'Kovács Nóra', 1, 1, 0, NULL, NULL, 1),
-(855, '76492125234', 'Takács Viktória', 1, 1, 0, NULL, NULL, 1),
-(856, '76226648003', 'Varga Balázs', 2, 1, 0, NULL, NULL, 1),
-(857, '78373641860', 'Lakatos Jázmin', 2, 1, 0, NULL, NULL, 1),
-(858, '78057976365', 'Nagy Patrik', 2, 1, 0, NULL, NULL, 1),
-(859, '71251683168', 'Kovács Lili', 2, 1, 0, NULL, NULL, 1),
-(860, '77857431567', 'Lakatos Bence', 2, 1, 0, NULL, NULL, 1),
-(861, '78111203575', 'Kovács Levente', 2, 1, 0, NULL, NULL, 1),
-(862, '75939770170', 'Nagy Levente', 2, 1, 0, NULL, NULL, 1),
-(863, '76066021566', 'Szabó Levente', 2, 1, 0, NULL, NULL, 1),
-(864, '76220807611', 'Tóth Máté', 2, 1, 0, NULL, NULL, 1),
-(865, '76142417394', 'Kovács Dániel', 2, 1, 0, NULL, NULL, 1),
-(866, '79894269862', 'Kovács Emma', 2, 1, 0, NULL, NULL, 1),
-(867, '78273628507', 'Kiss Jázmin', 2, 1, 0, NULL, NULL, 1),
-(868, '77576088622', 'Kiss Emma', 2, 1, 0, NULL, NULL, 1),
-(869, '76505756037', 'Kiss Jázmin', 2, 1, 0, NULL, NULL, 1),
-(870, '70180076514', 'Kovács Eszter', 2, 1, 0, NULL, NULL, 1),
+(844, '75940867758', 'Szabó Zoltán', 6, 1, 0, NULL, NULL, 1),
+(845, '77261009013', 'Farkas Noémi', 6, 1, 0, NULL, NULL, 1),
+(846, '74181990999', 'Farkas Patrik', 6, 1, 0, NULL, NULL, 1),
+(847, '74707485969', 'Kovács Lili', 6, 1, 0, NULL, NULL, 1),
+(848, '74326723248', 'Kovács Gergő', 6, 1, 0, NULL, NULL, 1),
+(849, '74391886174', 'Kiss Zoltán', 6, 1, 0, NULL, NULL, 1),
+(850, '73447617299', 'Lakatos Dániel', 6, 1, 0, NULL, NULL, 1),
+(851, '73335590099', 'Farkas Anna', 6, 1, 0, NULL, NULL, 1),
+(852, '76066911349', 'Szabó Noémi', 6, 1, 0, NULL, NULL, 1),
+(853, '79748673172', 'Molnár Nóra', 6, 1, 0, NULL, NULL, 1),
+(854, '79403751157', 'Kovács Nóra', 6, 1, 0, NULL, NULL, 1),
+(855, '76492125234', 'Takács Viktória', 6, 1, 0, NULL, NULL, 1),
+(856, '76226648003', 'Varga Balázs', 7, 1, 0, NULL, NULL, 1),
+(857, '78373641860', 'Lakatos Jázmin', 7, 1, 0, NULL, NULL, 1),
+(858, '78057976365', 'Nagy Patrik', 7, 1, 0, NULL, NULL, 1),
+(859, '71251683168', 'Kovács Lili', 7, 1, 0, NULL, NULL, 1),
+(860, '77857431567', 'Lakatos Bence', 7, 1, 0, NULL, NULL, 1),
+(861, '78111203575', 'Kovács Levente', 7, 1, 0, NULL, NULL, 1),
+(862, '75939770170', 'Nagy Levente', 7, 1, 0, NULL, NULL, 1),
+(863, '76066021566', 'Szabó Levente', 7, 1, 0, NULL, NULL, 1),
+(864, '76220807611', 'Tóth Máté', 7, 1, 0, NULL, NULL, 1),
+(865, '76142417394', 'Kovács Dániel', 7, 1, 0, NULL, NULL, 1),
+(866, '79894269862', 'Kovács Emma', 7, 1, 0, NULL, NULL, 1),
+(867, '78273628507', 'Kiss Jázmin', 7, 1, 0, NULL, NULL, 1),
+(868, '77576088622', 'Kiss Emma', 7, 1, 0, NULL, NULL, 1),
+(869, '76505756037', 'Kiss Jázmin', 7, 1, 0, NULL, NULL, 1),
+(870, '70180076514', 'Kovács Eszter', 7, 1, 0, NULL, NULL, 1),
 (871, '78472299455', 'Nagy Gergő', 3, 1, 0, NULL, NULL, 1),
 (872, '71813141913', 'Szabó Nóra', 3, 1, 0, NULL, NULL, 1),
 (873, '71544979915', 'Nagy Lili', 3, 1, 0, NULL, NULL, 1),
@@ -360,126 +355,126 @@ INSERT INTO `tanulo` (`id`, `okt_azonosito`, `nev`, `osztaly_id`, `tanszobas`, `
 (883, '76510587774', 'Kiss Eszter', 3, 1, 0, NULL, NULL, 1),
 (884, '79298616542', 'Farkas Bence', 3, 1, 0, NULL, NULL, 1),
 (885, '78441677477', 'Tóth Levente', 3, 1, 0, NULL, NULL, 1),
-(886, '77893702625', 'Tóth Balázs', 4, 1, 0, NULL, NULL, 1),
-(887, '74053921310', 'Farkas Zsófia', 4, 1, 0, NULL, NULL, 1),
-(888, '74110208413', 'Molnár Ádám', 4, 1, 0, NULL, NULL, 1),
-(889, '77016170841', 'Tóth Ádám', 4, 1, 0, NULL, NULL, 1),
-(890, '75477273524', 'Molnár Máté', 4, 1, 0, NULL, NULL, 1),
-(891, '78222365605', 'Farkas Patrik', 4, 1, 0, NULL, NULL, 1),
-(892, '73133382519', 'Molnár Máté', 4, 1, 0, NULL, NULL, 1),
-(893, '72622203623', 'Farkas Zoltán', 4, 1, 0, NULL, NULL, 1),
-(894, '78488050945', 'Takács Emma', 4, 1, 0, NULL, NULL, 1),
-(895, '76343488391', 'Takács Patrik', 4, 1, 1, 'Bognár Béla', 'apa', 1),
-(896, '70108827667', 'Kovács Máté', 4, 1, 0, NULL, NULL, 1),
-(897, '79866001977', 'Kovács Nóra', 4, 1, 0, NULL, NULL, 1),
-(898, '79661471619', 'Lakatos Eszter', 4, 1, 0, NULL, NULL, 1),
-(899, '78892274883', 'Kovács Anna', 4, 1, 0, NULL, NULL, 1),
-(900, '73505364417', 'Kiss Gergő', 4, 1, 0, NULL, NULL, 1),
-(901, '72347208001', 'Molnár Emma', 5, 1, 0, NULL, NULL, 1),
-(902, '76589862538', 'Varga Lili', 5, 1, 0, NULL, NULL, 1),
-(903, '79865012946', 'Szabó Ádám', 5, 1, 0, NULL, NULL, 1),
-(904, '76513082398', 'Tóth Anna', 5, 1, 0, NULL, NULL, 1),
-(905, '74053738161', 'Tóth Dániel', 5, 1, 0, NULL, NULL, 1),
-(906, '74753428877', 'Takács Nóra', 5, 1, 0, NULL, NULL, 1),
-(907, '78310653068', 'Szabó Noémi', 5, 1, 0, NULL, NULL, 1),
-(908, '77720975379', 'Szabó Dániel', 5, 1, 0, NULL, NULL, 1),
-(909, '78954534784', 'Szabó Nóra', 5, 1, 0, NULL, NULL, 1),
-(910, '70188631097', 'Szabó Ádám', 5, 1, 0, NULL, NULL, 1),
-(911, '74208176767', 'Szabó Nóra', 5, 1, 0, NULL, NULL, 1),
-(912, '79694942733', 'Kiss Gergő', 5, 1, 1, 'Varga Réka', 'gyám', 1),
-(913, '79164912787', 'Farkas Gergő', 5, 1, 0, NULL, NULL, 1),
-(914, '78436384938', 'Nagy Ádám', 5, 1, 0, NULL, NULL, 1),
-(915, '78544671329', 'Nagy Jázmin', 5, 1, 0, NULL, NULL, 1),
-(916, '78941725362', 'Kiss Levente', 6, 1, 0, NULL, NULL, 1),
-(917, '71671234348', 'Nagy Zsófia', 6, 1, 0, NULL, NULL, 1),
-(918, '72140814566', 'Lakatos Viktória', 6, 1, 0, NULL, NULL, 1),
-(919, '77030772477', 'Kiss Zsófia', 6, 1, 1, 'Kiss Istvánné', 'nagyszülő', 1),
-(920, '74170212048', 'Takács Patrik', 6, 1, 0, NULL, NULL, 1),
-(921, '75006314985', 'Szabó Nóra', 6, 1, 0, NULL, NULL, 1),
-(922, '74906302110', 'Lakatos Ádám', 6, 1, 0, NULL, NULL, 1),
-(923, '71257332605', 'Varga Lili', 6, 1, 0, NULL, NULL, 1),
-(924, '70944799783', 'Farkas Patrik', 6, 1, 0, NULL, NULL, 1),
-(925, '70618180267', 'Takács Lili', 6, 1, 0, NULL, NULL, 1),
-(926, '73669324602', 'Molnár Nóra', 6, 1, 0, NULL, NULL, 1),
-(927, '77215579905', 'Varga Eszter', 6, 1, 0, NULL, NULL, 1),
-(928, '70225195065', 'Nagy Jázmin', 6, 1, 0, NULL, NULL, 1),
-(929, '74960582177', 'Lakatos Levente', 6, 1, 0, NULL, NULL, 1),
-(930, '73847146481', 'Tóth Máté', 6, 1, 0, NULL, NULL, 1),
-(931, '71696614378', 'Lakatos Zoltán', 7, 1, 0, NULL, NULL, 1),
-(932, '77962274109', 'Kiss Noémi', 7, 1, 0, NULL, NULL, 1),
-(933, '71588799210', 'Farkas Máté', 7, 1, 0, NULL, NULL, 1),
-(934, '78710592699', 'Molnár Eszter', 7, 1, 0, NULL, NULL, 1),
-(935, '77217267872', 'Kovács Bence', 7, 1, 0, NULL, NULL, 1),
-(936, '71793116196', 'Molnár Anna', 7, 1, 0, NULL, NULL, 1),
-(937, '78984003304', 'Szabó Zoltán', 7, 1, 0, NULL, NULL, 1),
-(938, '77770311791', 'Nagy Zsófia', 7, 1, 0, NULL, NULL, 1),
-(939, '79821906730', 'Tóth Gergő', 7, 1, 0, NULL, NULL, 1),
-(940, '79921975530', 'Lakatos Anna', 7, 1, 0, NULL, NULL, 1),
-(941, '79074332908', 'Kovács Dániel', 7, 1, 0, NULL, NULL, 1),
-(942, '78868125504', 'Takács Zsófia', 7, 1, 0, NULL, NULL, 1),
-(943, '73892488171', 'Kovács Emma', 7, 1, 0, NULL, NULL, 1),
-(944, '77480499006', 'Takács Bence', 7, 1, 0, NULL, NULL, 1),
-(945, '74720488314', 'Farkas Levente', 7, 1, 0, NULL, NULL, 1),
-(946, '75880422485', 'Szabó Ádám', 8, 1, 0, NULL, NULL, 1),
-(947, '71587014897', 'Farkas Lili', 8, 1, 0, NULL, NULL, 1),
-(948, '77658865447', 'Molnár Patrik', 8, 1, 0, NULL, NULL, 1),
-(949, '75092717247', 'Nagy Dániel', 8, 1, 0, NULL, NULL, 1),
-(950, '72064660718', 'Kiss Levente', 8, 1, 0, NULL, NULL, 1),
-(951, '79233068982', 'Kiss Anna', 8, 1, 0, NULL, NULL, 1),
-(952, '76613508152', 'Farkas Emma', 8, 1, 0, NULL, NULL, 1),
-(953, '71443857260', 'Varga Balázs', 8, 1, 0, NULL, NULL, 1),
-(954, '71518013103', 'Lakatos Zoltán', 8, 1, 0, NULL, NULL, 1),
-(955, '78545254029', 'Takács Jázmin', 8, 1, 0, NULL, NULL, 1),
-(956, '78783437112', 'Nagy Bence', 8, 1, 0, NULL, NULL, 1),
-(957, '74539288818', 'Molnár Zoltán', 8, 1, 0, NULL, NULL, 1),
-(958, '76194692754', 'Lakatos Máté', 8, 1, 0, NULL, NULL, 1),
-(959, '72675742802', 'Szabó Levente', 8, 1, 0, NULL, NULL, 1),
-(960, '74077796155', 'Szabó Balázs', 8, 1, 0, NULL, NULL, 1),
-(961, '72310172558', 'Takács Anna', 9, 1, 0, NULL, NULL, 1),
-(962, '74703706088', 'Molnár Viktória', 9, 1, 0, NULL, NULL, 1),
-(963, '72132824128', 'Lakatos Zsófia', 9, 1, 0, NULL, NULL, 1),
-(964, '74471209440', 'Kiss Viktória', 9, 1, 0, NULL, NULL, 1),
-(965, '72900854196', 'Kiss Bence', 9, 1, 0, NULL, NULL, 1),
-(966, '73977815744', 'Kovács Dániel', 9, 1, 0, NULL, NULL, 1),
-(967, '78787896106', 'Varga Zsófia', 9, 1, 0, NULL, NULL, 1),
-(968, '74447124254', 'Tóth Nóra', 9, 1, 1, 'Nagy Zsófia', 'nevelőszülő', 1),
-(969, '71366284749', 'Molnár Ádám', 9, 1, 0, NULL, NULL, 1),
-(970, '77452597827', 'Nagy Dániel', 9, 1, 0, NULL, NULL, 1),
-(971, '78491136780', 'Szabó Lili', 9, 1, 0, NULL, NULL, 1),
-(972, '70735676515', 'Varga Bence', 9, 1, 0, NULL, NULL, 1),
-(973, '75043578923', 'Molnár Patrik', 9, 1, 0, NULL, NULL, 1),
-(974, '76599239019', 'Varga Emma', 9, 1, 0, NULL, NULL, 1),
-(975, '77452470624', 'Kovács Balázs', 9, 1, 0, NULL, NULL, 1),
-(976, '78334499004', 'Lakatos Zoltán', 10, 1, 0, NULL, NULL, 1),
-(977, '72054281160', 'Szabó Gergő', 10, 1, 0, NULL, NULL, 1),
-(978, '73401081825', 'Takács Eszter', 10, 1, 0, NULL, NULL, 1),
-(979, '77478861644', 'Kiss Levente', 10, 1, 0, NULL, NULL, 1),
-(980, '70653750822', 'Kovács Jázmin', 10, 1, 0, NULL, NULL, 1),
-(981, '79937255953', 'Tóth Noémi', 10, 1, 0, NULL, NULL, 1),
-(982, '70840301413', 'Kiss Eszter', 10, 1, 0, NULL, NULL, 1),
-(983, '72998121435', 'Lakatos Viktória', 10, 1, 0, NULL, NULL, 1),
-(984, '75913779330', 'Tóth Nóra', 10, 1, 0, NULL, NULL, 1),
-(985, '77026496390', 'Molnár Gergő', 10, 1, 0, NULL, NULL, 1),
-(986, '76174530146', 'Molnár Dániel', 10, 1, 0, NULL, NULL, 1),
-(987, '74789131057', 'Varga Noémi', 10, 1, 0, NULL, NULL, 1),
-(988, '78935480203', 'Varga Lili', 10, 1, 0, NULL, NULL, 1),
-(989, '73552028180', 'Lakatos Dániel', 10, 1, 0, NULL, NULL, 1),
-(990, '79161760744', 'Takács Eszter', 10, 1, 0, NULL, NULL, 1),
-(991, '75373315817', 'Kiss Máté', 11, 1, 0, NULL, NULL, 1),
-(992, '71520163684', 'Farkas Noémi', 11, 1, 0, NULL, NULL, 1),
-(993, '75429402076', 'Molnár Zoltán', 11, 1, 0, NULL, NULL, 1),
-(994, '75776284401', 'Tóth Gergő', 11, 1, 0, NULL, NULL, 1),
-(995, '71385384680', 'Nagy Zoltán', 11, 1, 0, NULL, NULL, 1),
-(996, '75737941965', 'Molnár Dániel', 11, 1, 0, NULL, NULL, 1),
-(997, '77412144016', 'Lakatos Emma', 11, 1, 0, NULL, NULL, 1),
-(998, '78975240911', 'Szabó Gergő', 11, 1, 0, NULL, NULL, 1),
-(999, '73972879475', 'Nagy Patrik', 11, 1, 0, NULL, NULL, 1),
-(1000, '79641129105', 'Farkas Noémi', 11, 1, 0, NULL, NULL, 1),
-(1001, '72696359043', 'Varga Jázmin', 11, 1, 0, NULL, NULL, 1),
-(1002, '79706409019', 'Tóth Lili', 11, 1, 0, NULL, NULL, 1),
-(1003, '72933425890', 'Varga Lili', 11, 1, 0, NULL, NULL, 1),
-(1004, '76881349931', 'Farkas Nóra', 11, 1, 0, NULL, NULL, 1),
-(1005, '74393261412', 'Nagy Levente', 11, 1, 0, NULL, NULL, 1),
+(886, '77893702625', 'Tóth Balázs', 8, 1, 0, NULL, NULL, 1),
+(887, '74053921310', 'Farkas Zsófia', 8, 1, 0, NULL, NULL, 1),
+(888, '74110208413', 'Molnár Ádám', 8, 1, 0, NULL, NULL, 1),
+(889, '77016170841', 'Tóth Ádám', 8, 1, 0, NULL, NULL, 1),
+(890, '75477273524', 'Molnár Máté', 8, 1, 0, NULL, NULL, 1),
+(891, '78222365605', 'Farkas Patrik', 8, 1, 0, NULL, NULL, 1),
+(892, '73133382519', 'Molnár Máté', 8, 1, 0, NULL, NULL, 1),
+(893, '72622203623', 'Farkas Zoltán', 8, 1, 0, NULL, NULL, 1),
+(894, '78488050945', 'Takács Emma', 8, 1, 0, NULL, NULL, 1),
+(895, '76343488391', 'Takács Patrik', 8, 1, 1, 'Bognár Béla', 'apa', 1),
+(896, '70108827667', 'Kovács Máté', 8, 1, 0, NULL, NULL, 1),
+(897, '79866001977', 'Kovács Nóra', 8, 1, 0, NULL, NULL, 1),
+(898, '79661471619', 'Lakatos Eszter', 8, 1, 0, NULL, NULL, 1),
+(899, '78892274883', 'Kovács Anna', 8, 1, 0, NULL, NULL, 1),
+(900, '73505364417', 'Kiss Gergő', 8, 1, 0, NULL, NULL, 1),
+(901, '72347208001', 'Molnár Emma', 9, 1, 0, NULL, NULL, 1),
+(902, '76589862538', 'Varga Lili', 9, 1, 0, NULL, NULL, 1),
+(903, '79865012946', 'Szabó Ádám', 9, 1, 0, NULL, NULL, 1),
+(904, '76513082398', 'Tóth Anna', 9, 1, 0, NULL, NULL, 1),
+(905, '74053738161', 'Tóth Dániel', 9, 1, 0, NULL, NULL, 1),
+(906, '74753428877', 'Takács Nóra', 9, 1, 0, NULL, NULL, 1),
+(907, '78310653068', 'Szabó Noémi', 9, 1, 0, NULL, NULL, 1),
+(908, '77720975379', 'Szabó Dániel', 9, 1, 0, NULL, NULL, 1),
+(909, '78954534784', 'Szabó Nóra', 9, 1, 0, NULL, NULL, 1),
+(910, '70188631097', 'Szabó Ádám', 9, 1, 0, NULL, NULL, 1),
+(911, '74208176767', 'Szabó Nóra', 9, 1, 0, NULL, NULL, 1),
+(912, '79694942733', 'Kiss Gergő', 9, 1, 1, 'Varga Réka', 'gyám', 1),
+(913, '79164912787', 'Farkas Gergő', 9, 1, 0, NULL, NULL, 1),
+(914, '78436384938', 'Nagy Ádám', 9, 1, 0, NULL, NULL, 1),
+(915, '78544671329', 'Nagy Jázmin', 9, 1, 0, NULL, NULL, 1),
+(916, '78941725362', 'Kiss Levente', 10, 1, 0, NULL, NULL, 1),
+(917, '71671234348', 'Nagy Zsófia', 10, 1, 0, NULL, NULL, 1),
+(918, '72140814566', 'Lakatos Viktória', 10, 1, 0, NULL, NULL, 1),
+(919, '77030772477', 'Kiss Zsófia', 10, 1, 1, 'Kiss Istvánné', 'nagyszülő', 1),
+(920, '74170212048', 'Takács Patrik', 10, 1, 0, NULL, NULL, 1),
+(921, '75006314985', 'Szabó Nóra', 10, 1, 0, NULL, NULL, 1),
+(922, '74906302110', 'Lakatos Ádám', 10, 1, 0, NULL, NULL, 1),
+(923, '71257332605', 'Varga Lili', 10, 1, 0, NULL, NULL, 1),
+(924, '70944799783', 'Farkas Patrik', 10, 1, 0, NULL, NULL, 1),
+(925, '70618180267', 'Takács Lili', 10, 1, 0, NULL, NULL, 1),
+(926, '73669324602', 'Molnár Nóra', 10, 1, 0, NULL, NULL, 1),
+(927, '77215579905', 'Varga Eszter', 10, 1, 0, NULL, NULL, 1),
+(928, '70225195065', 'Nagy Jázmin', 10, 1, 0, NULL, NULL, 1),
+(929, '74960582177', 'Lakatos Levente', 10, 1, 0, NULL, NULL, 1),
+(930, '73847146481', 'Tóth Máté', 10, 1, 0, NULL, NULL, 1),
+(931, '71696614378', 'Lakatos Zoltán', 11, 1, 0, NULL, NULL, 1),
+(932, '77962274109', 'Kiss Noémi', 11, 1, 0, NULL, NULL, 1),
+(933, '71588799210', 'Farkas Máté', 11, 1, 0, NULL, NULL, 1),
+(934, '78710592699', 'Molnár Eszter', 11, 1, 0, NULL, NULL, 1),
+(935, '77217267872', 'Kovács Bence', 11, 1, 0, NULL, NULL, 1),
+(936, '71793116196', 'Molnár Anna', 11, 1, 0, NULL, NULL, 1),
+(937, '78984003304', 'Szabó Zoltán', 11, 1, 0, NULL, NULL, 1),
+(938, '77770311791', 'Nagy Zsófia', 11, 1, 0, NULL, NULL, 1),
+(939, '79821906730', 'Tóth Gergő', 11, 1, 0, NULL, NULL, 1),
+(940, '79921975530', 'Lakatos Anna', 11, 1, 0, NULL, NULL, 1),
+(941, '79074332908', 'Kovács Dániel', 11, 1, 0, NULL, NULL, 1),
+(942, '78868125504', 'Takács Zsófia', 11, 1, 0, NULL, NULL, 1),
+(943, '73892488171', 'Kovács Emma', 11, 1, 0, NULL, NULL, 1),
+(944, '77480499006', 'Takács Bence', 11, 1, 0, NULL, NULL, 1),
+(945, '74720488314', 'Farkas Levente', 11, 1, 0, NULL, NULL, 1),
+(946, '75880422485', 'Szabó Ádám', 13, 1, 0, NULL, NULL, 1),
+(947, '71587014897', 'Farkas Lili', 13, 1, 0, NULL, NULL, 1),
+(948, '77658865447', 'Molnár Patrik', 13, 1, 0, NULL, NULL, 1),
+(949, '75092717247', 'Nagy Dániel', 13, 1, 0, NULL, NULL, 1),
+(950, '72064660718', 'Kiss Levente', 13, 1, 0, NULL, NULL, 1),
+(951, '79233068982', 'Kiss Anna', 13, 1, 0, NULL, NULL, 1),
+(952, '76613508152', 'Farkas Emma', 13, 1, 0, NULL, NULL, 1),
+(953, '71443857260', 'Varga Balázs', 13, 1, 0, NULL, NULL, 1),
+(954, '71518013103', 'Lakatos Zoltán', 13, 1, 0, NULL, NULL, 1),
+(955, '78545254029', 'Takács Jázmin', 13, 1, 0, NULL, NULL, 1),
+(956, '78783437112', 'Nagy Bence', 13, 1, 0, NULL, NULL, 1),
+(957, '74539288818', 'Molnár Zoltán', 13, 1, 0, NULL, NULL, 1),
+(958, '76194692754', 'Lakatos Máté', 13, 1, 0, NULL, NULL, 1),
+(959, '72675742802', 'Szabó Levente', 13, 1, 0, NULL, NULL, 1),
+(960, '74077796155', 'Szabó Balázs', 13, 1, 0, NULL, NULL, 1),
+(961, '72310172558', 'Takács Anna', 14, 1, 0, NULL, NULL, 1),
+(962, '74703706088', 'Molnár Viktória', 14, 1, 0, NULL, NULL, 1),
+(963, '72132824128', 'Lakatos Zsófia', 14, 1, 0, NULL, NULL, 1),
+(964, '74471209440', 'Kiss Viktória', 14, 1, 0, NULL, NULL, 1),
+(965, '72900854196', 'Kiss Bence', 14, 1, 0, NULL, NULL, 1),
+(966, '73977815744', 'Kovács Dániel', 14, 1, 0, NULL, NULL, 1),
+(967, '78787896106', 'Varga Zsófia', 14, 1, 0, NULL, NULL, 1),
+(968, '74447124254', 'Tóth Nóra', 14, 1, 1, 'Nagy Zsófia', 'nevelőszülő', 1),
+(969, '71366284749', 'Molnár Ádám', 14, 1, 0, NULL, NULL, 1),
+(970, '77452597827', 'Nagy Dániel', 14, 1, 0, NULL, NULL, 1),
+(971, '78491136780', 'Szabó Lili', 14, 1, 0, NULL, NULL, 1),
+(972, '70735676515', 'Varga Bence', 14, 1, 0, NULL, NULL, 1),
+(973, '75043578923', 'Molnár Patrik', 14, 1, 0, NULL, NULL, 1),
+(974, '76599239019', 'Varga Emma', 14, 1, 0, NULL, NULL, 1),
+(975, '77452470624', 'Kovács Balázs', 14, 1, 0, NULL, NULL, 1),
+(976, '78334499004', 'Lakatos Zoltán', 13, 1, 0, NULL, NULL, 1),
+(977, '72054281160', 'Szabó Gergő', 13, 1, 0, NULL, NULL, 1),
+(978, '73401081825', 'Takács Eszter', 13, 1, 0, NULL, NULL, 1),
+(979, '77478861644', 'Kiss Levente', 13, 1, 0, NULL, NULL, 1),
+(980, '70653750822', 'Kovács Jázmin', 13, 1, 0, NULL, NULL, 1),
+(981, '79937255953', 'Tóth Noémi', 13, 1, 0, NULL, NULL, 1),
+(982, '70840301413', 'Kiss Eszter', 13, 1, 0, NULL, NULL, 1),
+(983, '72998121435', 'Lakatos Viktória', 13, 1, 0, NULL, NULL, 1),
+(984, '75913779330', 'Tóth Nóra', 13, 1, 0, NULL, NULL, 1),
+(985, '77026496390', 'Molnár Gergő', 13, 1, 0, NULL, NULL, 1),
+(986, '76174530146', 'Molnár Dániel', 13, 1, 0, NULL, NULL, 1),
+(987, '74789131057', 'Varga Noémi', 13, 1, 0, NULL, NULL, 1),
+(988, '78935480203', 'Varga Lili', 13, 1, 0, NULL, NULL, 1),
+(989, '73552028180', 'Lakatos Dániel', 13, 1, 0, NULL, NULL, 1),
+(990, '79161760744', 'Takács Eszter', 13, 1, 0, NULL, NULL, 1),
+(991, '75373315817', 'Kiss Máté', 14, 1, 0, NULL, NULL, 1),
+(992, '71520163684', 'Farkas Noémi', 14, 1, 0, NULL, NULL, 1),
+(993, '75429402076', 'Molnár Zoltán', 14, 1, 0, NULL, NULL, 1),
+(994, '75776284401', 'Tóth Gergő', 14, 1, 0, NULL, NULL, 1),
+(995, '71385384680', 'Nagy Zoltán', 14, 1, 0, NULL, NULL, 1),
+(996, '75737941965', 'Molnár Dániel', 14, 1, 0, NULL, NULL, 1),
+(997, '77412144016', 'Lakatos Emma', 14, 1, 0, NULL, NULL, 1),
+(998, '78975240911', 'Szabó Gergő', 14, 1, 0, NULL, NULL, 1),
+(999, '73972879475', 'Nagy Patrik', 14, 1, 0, NULL, NULL, 1),
+(1000, '79641129105', 'Farkas Noémi', 14, 1, 0, NULL, NULL, 1),
+(1001, '72696359043', 'Varga Jázmin', 14, 1, 0, NULL, NULL, 1),
+(1002, '79706409019', 'Tóth Lili', 14, 1, 0, NULL, NULL, 1),
+(1003, '72933425890', 'Varga Lili', 14, 1, 0, NULL, NULL, 1),
+(1004, '76881349931', 'Farkas Nóra', 14, 1, 0, NULL, NULL, 1),
+(1005, '74393261412', 'Nagy Levente', 14, 1, 0, NULL, NULL, 1),
 (1006, '72546887832', 'Nagy Ádám', 12, 1, 1, 'Pintér Réka', 'anya', 1),
 (1007, '79466672474', 'Kovács Noémi', 12, 1, 0, NULL, NULL, 1),
 (1008, '70717576149', 'Tóth Zoltán', 12, 1, 0, NULL, NULL, 1),
@@ -524,7 +519,23 @@ INSERT INTO `tanulo` (`id`, `okt_azonosito`, `nev`, `osztaly_id`, `tanszobas`, `
 (1047, '74064184501', 'Molnár Zsófia', 14, 1, 0, NULL, NULL, 1),
 (1048, '71274944257', 'Farkas Ádám', 14, 1, 0, NULL, NULL, 1),
 (1049, '72729288709', 'Nagy Máté', 14, 1, 0, NULL, NULL, 1),
-(1050, '73350301729', 'Takács Bence', 14, 1, 0, NULL, NULL, 1);
+(1050, '73350301729', 'Takács Bence', 14, 1, 0, NULL, NULL, 1),
+(1051, '7125465824', 'Kiss Anna', 13, 1, 0, NULL, NULL, 1),
+(1052, '12345678901', 'Kovács Ádám', 6, 1, 0, NULL, NULL, 1),
+(1053, '12345678902', 'Nagy Petra', 6, 1, 0, NULL, NULL, 1),
+(1054, '12345678903', 'Tóth Dániel', 6, 1, 0, NULL, NULL, 1),
+(1055, '12345678904', 'Szabó Lili', 7, 1, 0, NULL, NULL, 1),
+(1056, '12345678905', 'Varga Zoltán', 7, 1, 0, NULL, NULL, 1),
+(1057, '12345678906', 'Balogh Dóra', 7, 1, 0, NULL, NULL, 1),
+(1058, '12345678907', 'Farkas Márk', 3, 1, 0, NULL, NULL, 1),
+(1059, '12345678908', 'Kiss Nóra', 3, 1, 0, NULL, NULL, 1),
+(1060, '12345678909', 'Molnár Gergő', 3, 1, 0, NULL, NULL, 1),
+(1061, '12345678910', 'Simon Vivien', 8, 1, 0, NULL, NULL, 1),
+(1062, '12345678911', 'Lakatos Levente', 8, 1, 0, NULL, NULL, 1),
+(1063, '12345678912', 'Kelemen Fanni', 8, 1, 0, NULL, NULL, 1),
+(1064, '12345678913', 'Bodnár Zsombor', 9, 1, 0, NULL, NULL, 1),
+(1065, '12345678914', 'Pintér Hanna', 9, 1, 0, NULL, NULL, 1),
+(1066, '12345678915', 'Oláh Bence', 9, 1, 0, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -539,6 +550,15 @@ CREATE TABLE `tanulo_archiv` (
   `osztaly_nev` varchar(10) DEFAULT NULL,
   `torles_idopont` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `tanulo_archiv`
+--
+
+INSERT INTO `tanulo_archiv` (`id`, `okt_azonosito`, `nev`, `osztaly_nev`, `torles_idopont`) VALUES
+(842, '76187282598', 'Lakatos Levente', '3.a', '2025-04-10 14:04:40'),
+(843, '76103180598', 'Varga Bence', '3.a', '2025-04-10 14:06:37'),
+(844, '76409040459', 'Takács Nóra', '3.a', '2025-04-10 14:06:42');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -627,7 +647,7 @@ ALTER TABLE `belepes`
 -- AUTO_INCREMENT a táblához `felhasznalo`
 --
 ALTER TABLE `felhasznalo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT a táblához `osztaly`
@@ -639,7 +659,7 @@ ALTER TABLE `osztaly`
 -- AUTO_INCREMENT a táblához `porta_uzenet`
 --
 ALTER TABLE `porta_uzenet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `tanterem`
@@ -651,19 +671,19 @@ ALTER TABLE `tanterem`
 -- AUTO_INCREMENT a táblához `tanterem_hasznalat`
 --
 ALTER TABLE `tanterem_hasznalat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `tanulo`
 --
 ALTER TABLE `tanulo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1051;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1067;
 
 --
 -- AUTO_INCREMENT a táblához `tanulo_archiv`
 --
 ALTER TABLE `tanulo_archiv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=845;
 
 --
 -- Megkötések a kiírt táblákhoz
